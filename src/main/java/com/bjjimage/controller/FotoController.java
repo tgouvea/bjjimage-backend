@@ -17,7 +17,7 @@ import com.bjjimage.domain.Foto;
 import com.bjjimage.service.FotoService;
 
 @RestController
-@RequestMapping("/fotos")
+@RequestMapping("/public/fotos")
 public class FotoController {
 
 	@Autowired

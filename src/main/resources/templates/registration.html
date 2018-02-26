@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+<head>
+
+<title>BJJ Images</title>
+
+<div th:replace="fragments/header :: header-css"></div>
+
+</head>
+<body class="fixed-nav sticky-footer bg-dark" id="page-top">
+
+
+	<div th:replace="fragments/sitenavbar :: sitenavbar"></div>
+
+	<div class="content-wrapper">
+		<div class="container-fluid">
+			<!-- Breadcrumbs-->
+			<ol class="breadcrumb">
+				<li class="breadcrumb-item"><a href="#">Registro</a></li>
+				<li class="breadcrumb-item active">usuário</li>
+			</ol>
+
+			<div class="container">
+				<div class="card card-register mx-auto mt-5">
+					<div class="card-header">Registre-se</div>
+					<div class="card-body">
+
+						<form autocomplete="off" action="#" th:action="@{/registration}"
+							th:object="${user}" method="post" class="form-horizontal"
+							role="form">
+							<div class="form-group">
+								<div class="col-sm-9">
+									<label th:if="${#fields.hasErrors('name')}" th:errors="*{name}"
+										class="validation-message"></label> <input type="text"
+										th:field="*{name}" placeholder="Name" class="form-control" />
+								</div>
+							</div>
+
+							<div class="form-group">
+								<div class="col-sm-9">
+									<input type="text" th:field="*{email}" placeholder="Email"
+										class="form-control" /> <label
+										th:if="${#fields.hasErrors('email')}" th:errors="*{email}"
+										class="validation-message"></label>
+								</div>
+							</div>
+
+							<div class="form-group">
+								<div class="col-sm-9">
+									<input type="password" th:field="*{password}"
+										placeholder="Senha" class="form-control" /> <label
+										th:if="${#fields.hasErrors('password')}"
+										th:errors="*{password}" class="validation-message"></label>
+								</div>
+							</div>
+
+							<div class="form-group">
+								<div class="col-sm-9">
+									<button type="submit" class="btn btn-primary btn-block">Confirmar
+										Registro</button>
+								</div>
+							</div>
+
+							<span th:utext="${successMessage}"></span>
+
+
+						</form>
+					</div>
+				</div>
+			</div>
+
+		</div>
+		
+		
+			<div th:replace="fragments/footer :: footer"></div>
+			
+			<div th:replace="fragments/scriptsfimpage :: scriptsfimpage"></div>
+	</div>
+
+</body>
+
+</html>

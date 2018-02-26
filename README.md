@@ -1,2 +1,0 @@
-# bjjimage-backend
-bjjimage backend

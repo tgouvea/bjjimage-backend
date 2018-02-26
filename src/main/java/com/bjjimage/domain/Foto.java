@@ -23,8 +23,6 @@ public class Foto {
 	
 	private boolean availableForSale;
 	
-	private boolean done;
-	
 	private String url;
 	
 	@Transient

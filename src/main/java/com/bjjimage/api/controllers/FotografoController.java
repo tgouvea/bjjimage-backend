@@ -13,26 +13,24 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.bjjimage.api.dtos.EmpresaDto;
-import com.bjjimage.api.entities.Empresa;
+import com.bjjimage.api.entities.Fotografo;
 import com.bjjimage.api.responses.Response;
-import com.bjjimage.api.services.EmpresaService;
+import com.bjjimage.api.services.FotografoService;
 
 @RestController
-@RequestMapping("/api/empresas")
-public class EmpresaController {
+@RequestMapping("/api/fotografos")
+public class FotografoController {
 
 	@Autowired
-	EmpresaService empresaService;
+	FotografoService fotografoService;
 	
-	@GetMapping(value = "/{cnpj}")
-	@PreAuthorize("hasAnyRole('ADMIN')")
-	public ResponseEntity<Response<Empresa>> buscarEmpresa (@PathVariable("cnpj") String cnpj) {
+	@GetMapping(value = "/{cpf}")
+	@PreAuthorize("hasAnyRole({'ADMIN','USER'})")
+	public ResponseEntity<Response<Fotografo>> buscarFotografo (@PathVariable("cpf") String cpf) {
 		
-		Response<Empresa> response = new Response<>();
+		Response<Fotografo> response = new Response<>();
 		
-		System.out.println("CNPJ: " + cnpj);
-		response.setData(empresaService.findByCnpj(cnpj));
+		response.setData(fotografoService.findByCpf(cpf));
 		
 		System.out.println(response.toString());
 		
@@ -40,9 +38,10 @@ public class EmpresaController {
 	}
 	
 	@PostMapping
-	public ResponseEntity<Response<EmpresaDto>> cadastrar(@Valid @RequestBody EmpresaDto empresaDto, BindingResult result){
+	@PreAuthorize("hasAnyRole('ADMIN')")
+	public ResponseEntity<Response<Fotografo>> cadastrar(@Valid @RequestBody Fotografo fotografo, BindingResult result){
 		
-		Response<EmpresaDto> response = new Response<>();
+		Response<Fotografo> response = new Response<>();
 		
 		if (result.hasErrors()) {
 			result.getAllErrors().forEach(error -> response.getErrors().add(error.getDefaultMessage()));
@@ -50,7 +49,7 @@ public class EmpresaController {
 		}
 		
 		
-		response.setData(empresaDto);
+		response.setData(fotografo);
 		
 		
 		return ResponseEntity.ok(response);

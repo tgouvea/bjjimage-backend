@@ -25,7 +25,7 @@ public class FotografoController {
 	FotografoService fotografoService;
 	
 	@GetMapping(value = "/{cpf}")
-	@PreAuthorize("hasAnyRole({'ADMIN','USER'})")
+	@PreAuthorize("hasAnyRole('ADMIN')")
 	public ResponseEntity<Response<Fotografo>> buscarFotografo (@PathVariable("cpf") String cpf) {
 		
 		Response<Fotografo> response = new Response<>();
@@ -38,7 +38,7 @@ public class FotografoController {
 	}
 	
 	@PostMapping
-	@PreAuthorize("hasAnyRole('ADMIN')")
+	@PreAuthorize("hasAnyRole('USER')")
 	public ResponseEntity<Response<Fotografo>> cadastrar(@Valid @RequestBody Fotografo fotografo, BindingResult result){
 		
 		Response<Fotografo> response = new Response<>();
@@ -48,9 +48,7 @@ public class FotografoController {
 			return ResponseEntity.badRequest().body(response);
 		}
 		
-		
 		response.setData(fotografo);
-		
 		
 		return ResponseEntity.ok(response);
 	}

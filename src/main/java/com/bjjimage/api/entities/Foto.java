@@ -7,9 +7,12 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 import javax.persistence.PrePersist;
 import javax.persistence.PreUpdate;
 import javax.persistence.Table;
@@ -23,55 +26,72 @@ import com.bjjimage.api.enums.TamanhoType;
 
 @Entity
 @Table(name = "foto")
-public class Foto implements Serializable{
-	
-	/**
-	 * 
-	 */
+public class Foto implements Serializable {
+
 	private static final long serialVersionUID = 4411069135381962057L;
 
 	@Id
-    @GeneratedValue(strategy=GenerationType.AUTO)
-	private String id;
-	
+	@GeneratedValue(strategy = GenerationType.AUTO)
+	private Long id;
+
 	private String nome;
-	
+
 	private String descricao;
-	
+
+	@OneToOne
+	private Preco preco;
+
+	private int quantidadeVendida;
+
 	private boolean disponivelVenda;
-	
-	@NotEmpty(message="O tipo de imagem é obrigatório")
+
+	@OneToOne
+	private Evento evento;
+
+	@NotEmpty(message = "O tipo de imagem é obrigatório")
 	@Enumerated(EnumType.STRING)
 	@Column(name = "tipo", nullable = false)
 	private FotoType fotoType;
-	
-	@NotEmpty(message="O tamanho é obrigatório")
+
+	@NotEmpty(message = "O tamanho é obrigatório")
 	@Enumerated(EnumType.STRING)
 	@Column(name = "tamanho", nullable = false)
 	private TamanhoType tamanho;
-	
-	@NotEmpty(message="A resolução é obrigatória")
+
+	@NotEmpty(message = "A resolução é obrigatória")
 	@Enumerated(EnumType.STRING)
 	@Column(name = "resolucao", nullable = false)
-	private ResolucaoType resolucaoType;	
-	
-	@NotEmpty(message="A url é obrigatória")
+	private ResolucaoType resolucaoType;
+
+	@NotEmpty(message = "A url é obrigatória")
 	private String url;
 	
+	@ManyToOne(fetch = FetchType.EAGER)
+	private Fotografo fotografo;
+
 	private Date dataCriacao;
 
 	private Date dataAtualizacao;
-	
-	@Transient
-	private Byte[] file;		
-	
 
-	public String getId() {
+	private Date dataExpiracao;
+
+	@Transient
+	private Byte[] file;
+
+	public Long getId() {
 		return id;
 	}
 
-	public void setId(String id) {
+	public void setId(Long id) {
 		this.id = id;
+	}
+
+	public Evento getEvento() {
+		return evento;
+	}
+
+	public void setEvento(Evento evento) {
+		this.evento = evento;
 	}
 
 	public String getNome() {
@@ -137,9 +157,23 @@ public class Foto implements Serializable{
 	public void setFotoType(FotoType fotoType) {
 		this.fotoType = fotoType;
 	}
-	
-	
-	
+
+	public Preco getPreco() {
+		return preco;
+	}
+
+	public void setPreco(Preco preco) {
+		this.preco = preco;
+	}
+
+	public int getQuantidadeVendida() {
+		return quantidadeVendida;
+	}
+
+	public void setQuantidadeVendida(int quantidadeVendida) {
+		this.quantidadeVendida = quantidadeVendida;
+	}
+
 	public Date getDataCriacao() {
 		return dataCriacao;
 	}
@@ -156,6 +190,14 @@ public class Foto implements Serializable{
 		this.dataAtualizacao = dataAtualizacao;
 	}
 
+	public Date getDataExpiracao() {
+		return dataExpiracao;
+	}
+
+	public void setDataExpiracao(Date dataExpiracao) {
+		this.dataExpiracao = dataExpiracao;
+	}
+
 	@PreUpdate
 	public void preUpdate() {
 		dataAtualizacao = new Date();
@@ -167,7 +209,5 @@ public class Foto implements Serializable{
 		dataCriacao = atual;
 		dataAtualizacao = atual;
 	}
-	 
 
-	
 }

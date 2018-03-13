@@ -20,16 +20,13 @@ import org.hibernate.validator.constraints.NotEmpty;
 
 @Entity
 @Table(name = "evento")
-public class Evento implements Serializable{
+public class Evento implements Serializable {
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 9006971394959630476L;
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	private String id;
+	private Long id;
 
 	@NotEmpty(message = "O nome do evento é obrigatório.")
 	@Length(min = 3, max = 100)
@@ -44,16 +41,15 @@ public class Evento implements Serializable{
 	private Date dataAtualizacao;
 
 	private Date dataDoEvento;
-	
+
 	@OneToMany(mappedBy = "evento", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	private List<Fotografo> fotografos;
-	
 
-	public String getId() {
+	public Long getId() {
 		return id;
 	}
 
-	public void setId(String id) {
+	public void setId(Long id) {
 		this.id = id;
 	}
 
@@ -96,7 +92,7 @@ public class Evento implements Serializable{
 	public void setDataDoEvento(Date dataDoEvento) {
 		this.dataDoEvento = dataDoEvento;
 	}
-	
+
 	public List<Fotografo> getFotografos() {
 		return fotografos;
 	}

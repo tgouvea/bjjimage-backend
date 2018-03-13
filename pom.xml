@@ -136,6 +136,13 @@
 			<artifactId>ehcache</artifactId>
 		</dependency>
 		
+		<!-- Trabalhando com Dinheiro -->
+		<dependency>
+		    <groupId>javax.money</groupId>
+		    <artifactId>money-api</artifactId>
+		    <version>1.0.1</version>
+		</dependency>
+		
 	</dependencies>
 
 	<build>

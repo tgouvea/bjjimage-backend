@@ -78,7 +78,7 @@ public class EventoController {
 	}
 	
 	
-	@GetMapping(value = "/{data}")
+	@GetMapping(value = "/data/{data}")
 	@PreAuthorize("hasAnyRole({'ADMIN','USER'})")
 	public ResponseEntity<Response<Evento>> buscarTodosOsEventos (@Valid @PathVariable("data") Date data, BindingResult result) {
 		

@@ -2,6 +2,7 @@ package com.bjjimage.api.security.services;
 
 import java.util.Optional;
 
+import com.bjjimage.api.dtos.UsuarioDto;
 import com.bjjimage.api.security.entities.Usuario;
 
 public interface UsuarioService {
@@ -13,5 +14,9 @@ public interface UsuarioService {
 	 * @return Optional<Usuario>
 	 */
 	Optional<Usuario> buscarPorEmail(String email);
+	
+	public Usuario buscarDadosUsuario();
+	
+	public Usuario cadastrar(UsuarioDto usuarioDto);
 
 }

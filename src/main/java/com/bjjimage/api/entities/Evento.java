@@ -1,6 +1,7 @@
 package com.bjjimage.api.entities;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -43,7 +44,7 @@ public class Evento implements Serializable {
 	private Date dataDoEvento;
 
 	@OneToMany(mappedBy = "evento", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-	private List<Fotografo> fotografos;
+	private List<Fotografo> fotografos = new ArrayList<>();
 
 	public Long getId() {
 		return id;

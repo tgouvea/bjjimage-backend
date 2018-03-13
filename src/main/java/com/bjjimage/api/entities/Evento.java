@@ -15,6 +15,8 @@ import javax.persistence.OneToMany;
 import javax.persistence.PrePersist;
 import javax.persistence.PreUpdate;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
 import org.hibernate.validator.constraints.Length;
 import org.hibernate.validator.constraints.NotEmpty;
@@ -37,10 +39,13 @@ public class Evento implements Serializable {
 	@Length(min = 5, max = 255)
 	private String descricao;
 
+	@Temporal(TemporalType.TIMESTAMP)
 	private Date dataCriacao;
 
+	@Temporal(TemporalType.TIMESTAMP)
 	private Date dataAtualizacao;
 
+	@Temporal(TemporalType.TIMESTAMP)
 	private Date dataDoEvento;
 
 	@OneToMany(mappedBy = "evento", fetch = FetchType.LAZY, cascade = CascadeType.ALL)

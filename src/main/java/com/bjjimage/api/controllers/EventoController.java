@@ -1,5 +1,8 @@
 package com.bjjimage.api.controllers;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -63,14 +66,9 @@ public class EventoController {
 	
 	@GetMapping
 	@PreAuthorize("hasAnyRole({'ADMIN','USER'})")
-	public ResponseEntity<Response<List<Evento>>> buscarTodosOsEventos (@Valid BindingResult result) {
+	public ResponseEntity<Response<List<Evento>>> buscarTodosOsEventos () {
 		
 		Response<List<Evento>> response = new Response<>();
-		
-		if (result.hasErrors()) {
-			result.getAllErrors().forEach(error -> response.getErrors().add(error.getDefaultMessage()));
-			return ResponseEntity.badRequest().body(response);
-		}
 		
 		response.setData(eventoService.buscarTodos());
 		
@@ -80,16 +78,25 @@ public class EventoController {
 	
 	@GetMapping(value = "/data/{data}")
 	@PreAuthorize("hasAnyRole({'ADMIN','USER'})")
-	public ResponseEntity<Response<Evento>> buscarTodosOsEventos (@Valid @PathVariable("data") Date data, BindingResult result) {
+	public ResponseEntity<Response<Evento>> buscarTodosOsEventos (@PathVariable("data") String data) {
 		
 		Response<Evento> response = new Response<>();
 		
-		if (result.hasErrors()) {
-			result.getAllErrors().forEach(error -> response.getErrors().add(error.getDefaultMessage()));
+		Date date = null;
+		
+		if (data == null || "".equals(data)) {
+			response.getErrors().add("A data é obrigatória");
 			return ResponseEntity.badRequest().body(response);
 		}
 		
-		response.setData(eventoService.buscarEvento(data));
+		try {
+			date = SimpleDateFormat.getInstance().parse(data);
+		} catch (ParseException e) {
+			response.getErrors().add("Formato de data inválido");
+			return ResponseEntity.badRequest().body(response);
+		}
+		
+		response.setData(eventoService.buscarEvento(date));
 		
 		return ResponseEntity.ok(response);
 	}
